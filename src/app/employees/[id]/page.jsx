@@ -57,7 +57,12 @@ const EmployeeDetails = ({ params }) => {
           <p className={`${
         theme === "dark" ? " text-white" : " text-black"
       }`}>
-            <strong>Designation:</strong> {employee.designation}
+            <strong>Remark:</strong> {employee.dateOfJoin}
+          </p>
+          <p className={`${
+        theme === "dark" ? " text-white" : " text-black"
+      }`}>
+            <strong>Designation:</strong> {employee.remark}
           </p>
           <p className={`${
         theme === "dark" ? " text-white" : " text-black"

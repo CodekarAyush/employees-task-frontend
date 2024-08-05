@@ -12,7 +12,7 @@ import { ToastContainer, toast } from 'react-toastify';
 import { login } from '@/redux/slices/authSlice';
 import { useTheme } from 'next-themes';
 
-export default function Login() {
+export default function Login() {  
   const [showPassword, setShowPassword] = useState(false);
   const [formData, setFormData] = useState({
     email: '',
