@@ -8,6 +8,7 @@ import { MenuIcon, XIcon } from "@heroicons/react/outline";
 import { motion } from "framer-motion";
 import Link from "next/link";
 import { loadUser, logout } from "@/redux/slices/authSlice";
+import { useTheme } from "next-themes";
 
 const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
@@ -15,6 +16,7 @@ const Navbar = () => {
   const dispatch = useDispatch();
   const router = useRouter();
   const { user, isAuth } = useSelector((state) => state.auth);
+  const { theme } = useTheme();
 
   useEffect(() => {
     setMounted(true);
@@ -35,29 +37,29 @@ const Navbar = () => {
   }
 
   return (
-    <header className="sticky top-0 z-50 bg-white dark:bg-gray-800 backdrop-blur-xs bg-opacity-70 shadow-lg">
+    <header className={`sticky top-0 z-50 backdrop-blur-xs bg-opacity-70 shadow-lg ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'}`}>
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
           <div className="flex-shrink-0">
-            <Link className="text-xl list font-bold text-gray-900 dark:text-white" href="/">
+            <Link className={`text-xl list font-bold ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`} href="/">
               Logo
             </Link>
           </div>
           <div className="hidden md:flex md:space-x-8 md:items-center">
-            <Link className="text-gray-900 dark:text-white" href="/">
+            <Link className={`${theme === 'dark' ? 'text-white' : 'text-gray-900'}`} href="/">
               Home
             </Link>
-            <Link className="text-gray-900 dark:text-white" href="/employees">
+            <Link className={`${theme === 'dark' ? 'text-white' : 'text-gray-900'}`} href="/employees">
               Employees
             </Link>
           </div>
           <div className="hidden md:flex md:items-center md:space-x-4">
             {isAuth ? (
               <>
-                <span className="text-gray-900 dark:text-white">{user?.email}</span>
+                <span className={`${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>{user?.email}</span>
                 <button
                   onClick={handleLogout}
-                  className="px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded-md text-gray-900 dark:text-white"
+                  className={`px-4 py-2 rounded-md ${theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-gray-200 text-gray-900'}`}
                 >
                   Logout
                 </button>
@@ -65,12 +67,12 @@ const Navbar = () => {
             ) : (
               <>
                 <Link href="/login">
-                  <button className="px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded-md text-gray-900 dark:text-white">
+                  <button className={`px-4 py-2 rounded-md ${theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-gray-200 text-gray-900'}`}>
                     Login
                   </button>
                 </Link>
                 <Link href="/signup">
-                  <button className="px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded-md text-gray-900 dark:text-white">
+                  <button className={`px-4 py-2 rounded-md ${theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-gray-200 text-gray-900'}`}>
                     Signup
                   </button>
                 </Link>
@@ -79,7 +81,7 @@ const Navbar = () => {
             <ModeToggle />
           </div>
           <div className="md:hidden">
-            <button onClick={toggleDrawer} className="text-gray-900 dark:text-white">
+            <button onClick={toggleDrawer} className={`${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
               {isOpen ? <XIcon className="h-6 w-6" /> : <MenuIcon className="h-6 w-6" />}
             </button>
           </div>
@@ -93,12 +95,12 @@ const Navbar = () => {
             animate={{ x: 0 }}
             exit={{ x: "-100%" }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}
-            className="relative bg-white dark:bg-gray-800 w-64 h-full shadow-lg"
+            className={`relative w-64 h-full shadow-lg ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'}`}
           >
             <div className="flex flex-col h-full">
               <div className="flex justify-between items-center p-4">
-                <span className="text-gray-900 dark:text-white">{user?.email}</span>
-                <button onClick={toggleDrawer} className="text-gray-900 dark:text-white">
+                <span className={`${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>{user?.email}</span>
+                <button onClick={toggleDrawer} className={`${theme === 'dark' ? 'text-white' : 'text-gray-900'}`}>
                   <XIcon className="h-6 w-6" />
                 </button>
               </div>
@@ -107,10 +109,10 @@ const Navbar = () => {
                   <ModeToggle />
                 </div>
                 <div className="flex-1 p-4">
-                  <Link className="block text-gray-900 pt-4 dark:text-white mb-2" href="/">
+                  <Link className={`block pt-4 mb-2 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`} href="/">
                     Home
                   </Link>
-                  <Link className="block text-gray-900 pt-4 dark:text-white mb-2" href="/employees">
+                  <Link className={`block pt-4 mb-2 ${theme === 'dark' ? 'text-white' : 'text-gray-900'}`} href="/employees">
                     Employees
                   </Link>
                 </div>
@@ -119,19 +121,19 @@ const Navbar = () => {
                 {isAuth ? (
                   <button
                     onClick={handleLogout}
-                    className="w-full px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded-md text-gray-900 dark:text-white"
+                    className={`w-full px-4 py-2 rounded-md ${theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-gray-200 text-gray-900'}`}
                   >
                     Logout
                   </button>
                 ) : (
                   <>
                     <Link href="/login">
-                      <button className="w-full px-4 py-2 mb-2 bg-gray-200 dark:bg-gray-700 rounded-md text-gray-900 dark:text-white">
+                      <button className={`w-full px-4 py-2 mb-2 rounded-md ${theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-gray-200 text-gray-900'}`}>
                         Login
                       </button>
                     </Link>
                     <Link href="/signup">
-                      <button className="w-full px-4 py-2 bg-gray-200 dark:bg-gray-700 rounded-md text-gray-900 dark:text-white">
+                      <button className={`w-full px-4 py-2 rounded-md ${theme === 'dark' ? 'bg-gray-700 text-white' : 'bg-gray-200 text-gray-900'}`}>
                         Signup
                       </button>
                     </Link>

@@ -109,7 +109,7 @@ const Home = () => {
     <div className={`${theme === 'dark' ? 'bg-gray-900 text-white' : 'bg-white text-black'} container mx-auto p-4`}>
       <Dialog>
         <DialogTrigger asChild>
-          <Button className="mb-4">{isUpdateMode ? 'Update Employee' : 'Add Employee'}</Button>
+          <Button  className={` ${theme === 'dark' ? 'bg-blue-600 text-white' : 'bg-blue-500 text-white'}`}>{isUpdateMode ? 'Update Employee' : 'Add Employee'}</Button>
         </DialogTrigger>
         <DialogContent className={`${theme === 'dark' ? 'bg-gray-800' : 'bg-white'} sm:max-w-[425px]`}>
           <DialogHeader>
@@ -145,7 +145,7 @@ const Home = () => {
               </SelectContent>
             </Select>
             <Input name="salary" type="number" placeholder="Salary" value={newEmployee.salary} onChange={handleInputChange} />
-            <Button type="submit">{isUpdateMode ? 'Update' : 'Submit'}</Button>
+            <Button type="submit" className={` ${theme === 'dark' ? 'bg-blue-600 text-white' : 'bg-blue-500 text-white'}`}>{isUpdateMode ? 'Update' : 'Submit'}</Button>
           </form>
         </DialogContent>
       </Dialog>
@@ -165,10 +165,10 @@ const Home = () => {
             <TableRow key={employee._id} onClick={() => handleRowClick(employee._id)} className="cursor-pointer">
               <TableCell>{employee.name}</TableCell>
               <TableCell>{employee.email}</TableCell>
-              <TableCell>{format(new Date(employee.dateOfJoin), "PPP")}</TableCell>
+              <TableCell>{employee.dateOfJoin}</TableCell>
               <TableCell>
-                <Button variant="outline" className="mr-2" onClick={(e) => { e.stopPropagation(); handleUpdate(employee); }}>Update</Button>
-                <Button variant="destructive" onClick={(e) => { e.stopPropagation(); handleDelete(employee._id); }}>Delete</Button>
+                <Button variant="outline" className={` ${theme === 'dark' ? 'bg-blue-600 text-white' : 'bg-blue-500 text-white'}`} onClick={(e) => { e.stopPropagation(); handleUpdate(employee); }}>Update</Button>
+                <Button variant="destructive" className={` ${theme === 'dark' ? 'bg-red-600 text-white' : 'bg-red-500 text-white'}`} onClick={(e) => { e.stopPropagation(); handleDelete(employee._id); }}>Delete</Button>
               </TableCell>
             </TableRow>
           ))}

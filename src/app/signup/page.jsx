@@ -11,6 +11,8 @@ import { useDispatch } from "react-redux";
 import {  toast } from "react-toastify";
 
 import { useRouter } from "next/navigation";
+import { useTheme } from "next-themes";
+
 
 const Signup = () => {
   const [showPassword, setShowPassword] = useState(false);
@@ -28,7 +30,7 @@ const Signup = () => {
   });
   const dispatch = useDispatch();
   const route = useRouter();
-
+  const {theme} = useTheme()
   const handleChange = (e) => {
     const { name, value } = e.target;
     setFormData((prev) => ({ ...prev, [name]: value }));
@@ -81,35 +83,38 @@ const Signup = () => {
           })
         );
 
-        if (signup.fulfilled.match(resultAction)) {
+        if (!resultAction.error) {
           const data = resultAction.payload;
-          if (data.message) {
-            toast.success(data.message);
+          console.log(resultAction);
+          console.log(data);
+          
+ 
+            toast.success("Registration successful !");
             route.push('/');
-          }
+
         } else if (signup.rejected.match(resultAction)) {
           const error = resultAction.payload;
           toast.error(error);
         }
       } catch (error) {
         console.error(error);
-        toast.error('An unexpected error occurred');
+        toast.error(resultAction.payload ||'An unexpected error occurred');
       }
     }
   };
 
   return (
     <>
-      <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900">
-        <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-8 max-w-md w-full space-y-6">
-          <h2 className="text-2xl font-bold text-center text-gray-900 dark:text-gray-100">
+      <div className={`min-h-screen flex items-center justify-center ${theme === 'dark' ? 'bg-gray-900' : 'bg-gray-100'}`}>
+        <div className={`shadow-md rounded-lg p-8 max-w-md w-full space-y-6 ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'}`}>
+          <h2 className={`text-2xl font-bold text-center ${theme === 'dark' ? 'text-gray-100' : 'text-gray-900'}`}>
             Sign Up
           </h2>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <Label
                 htmlFor="fullName"
-                className="text-sm font-medium text-gray-700 dark:text-gray-300"
+                className={`text-sm font-medium ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}
               >
                 Full Name
               </Label>
@@ -130,7 +135,7 @@ const Signup = () => {
             <div>
               <Label
                 htmlFor="email"
-                className="text-sm font-medium text-gray-700 dark:text-gray-300"
+                className={`text-sm font-medium ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}
               >
                 Email
               </Label>
@@ -151,7 +156,7 @@ const Signup = () => {
             <div>
               <Label
                 htmlFor="password"
-                className="text-sm font-medium text-gray-700 dark:text-gray-300"
+                className={`text-sm font-medium ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}
               >
                 Password
               </Label>
@@ -185,7 +190,7 @@ const Signup = () => {
             <div>
               <Label
                 htmlFor="confirmPassword"
-                className="text-sm font-medium text-gray-700 dark:text-gray-300"
+                className={`text-sm font-medium ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}
               >
                 Confirm Password
               </Label>
@@ -205,7 +210,7 @@ const Signup = () => {
                 </p>
               )}
             </div>
-            <Button type="submit" className="w-full">
+            <Button type="submit" className={`w-full ${theme === 'dark' ? 'bg-blue-600 text-white' : 'bg-blue-500 text-white'}`}>
               Sign Up
             </Button>
           </form>

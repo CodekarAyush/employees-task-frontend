@@ -9,8 +9,8 @@ import { Label } from "@/components/ui/label";
 import { useDispatch } from 'react-redux';
 import { useRouter } from 'next/navigation';
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 import { login } from '@/redux/slices/authSlice';
+import { useTheme } from 'next-themes';
 
 export default function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -25,6 +25,7 @@ export default function Login() {
 
   const dispatch = useDispatch();
   const router = useRouter();
+  const { theme } = useTheme();
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -60,7 +61,10 @@ export default function Login() {
     e.preventDefault();
     if (validateForm()) {
       const resultAction = await dispatch(login(formData));
-      if (login.fulfilled.match(resultAction)) {
+    console.log(resultAction);
+    
+      
+      if (!resultAction.error) {
         toast.success(resultAction.payload.message || 'Login successful');
         router.push('/');
       } else {
@@ -70,12 +74,12 @@ export default function Login() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100 dark:bg-gray-900">
-      <div className="bg-white dark:bg-gray-800 shadow-md rounded-lg p-8 max-w-md w-full space-y-6">
-        <h2 className="text-2xl font-bold text-center text-gray-900 dark:text-gray-100">Login</h2>
+    <div className={`min-h-screen flex items-center justify-center ${theme === 'dark' ? 'bg-gray-900' : 'bg-gray-100'}`}>
+      <div className={`shadow-md rounded-lg p-8 max-w-md w-full space-y-6 ${theme === 'dark' ? 'bg-gray-800' : 'bg-white'}`}>
+        <h2 className={`text-2xl font-bold text-center ${theme === 'dark' ? 'text-gray-100' : 'text-gray-900'}`}>Login</h2>
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <Label htmlFor="email" className="text-sm font-medium text-gray-700 dark:text-gray-300">Email</Label>
+            <Label htmlFor="email" className={`text-sm font-medium ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>Email</Label>
             <Input
               id="email"
               name="email"
@@ -87,7 +91,7 @@ export default function Login() {
             {errors.email && <p className="mt-1 text-xs text-red-500">{errors.email}</p>}
           </div>
           <div>
-            <Label htmlFor="password" className="text-sm font-medium text-gray-700 dark:text-gray-300">Password</Label>
+            <Label htmlFor="password" className={`text-sm font-medium ${theme === 'dark' ? 'text-gray-300' : 'text-gray-700'}`}>Password</Label>
             <div className="relative">
               <Input
                 id="password"
@@ -111,15 +115,15 @@ export default function Login() {
             </div>
             {errors.password && <p className="mt-1 text-xs text-red-500">{errors.password}</p>}
           </div>
-          <Button type="submit" className="w-full">
+          <Button type="submit" className={`w-full ${theme === 'dark' ? 'bg-blue-600 text-white' : 'bg-blue-500 text-white'}`}>
             Login
           </Button>
         </form>
-        <p className="text-sm text-center text-gray-600 dark:text-gray-400">
+        <p className={`text-sm text-center ${theme === 'dark' ? 'text-gray-400' : 'text-gray-600'}`}>
           Don't have an account? <Link href="/signup" className="text-blue-600 hover:text-blue-500">Click here to sign up</Link>
         </p>
       </div>
- 
+
     </div>
   );
 }
