@@ -66,6 +66,7 @@ export default function Login() {
       
       if (!resultAction.error) {
         toast.success(resultAction.payload.message || 'Login successful');
+        router.refresh()
         router.push('/');
       } else {
         toast.error(resultAction.payload || 'Login failed');

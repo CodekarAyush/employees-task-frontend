@@ -90,6 +90,8 @@ const Signup = () => {
           
  
             toast.success("Registration successful !");
+            
+            route.refresh()
             route.push('/');
 
         } else if (signup.rejected.match(resultAction)) {
