@@ -200,6 +200,7 @@ const Signup = () => {
                 id="confirmPassword"
                 name="confirmPassword"
                 type="password"
+
                 value={formData.confirmPassword}
                 onChange={handleChange}
                 className={`mt-1 block w-full ${
